@@ -1,6 +1,2 @@
 [core]
-interval = 5
-
-[server]
-port = 6666
-name = "test"
+interval = 1

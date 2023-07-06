@@ -5,11 +5,12 @@ use config_parser::ConfigParser;
 use process_command::ProcessCommand;
 use std::{thread, time};
 
+const MODULE: &str = "core";
+
 fn main() {
     let config = ConfigParser::new();
-    let interval = config.get_value_or_default("nonexistent", "name", "1");
-
-    println!("{}", interval);
+    let interval = config.get_value_or_default(MODULE, "interval", "1");
+    let interval = interval.parse::<u64>().unwrap();
 
     loop {
         let mut process_command = ProcessCommand::new();
@@ -17,6 +18,6 @@ fn main() {
 
         println!("{:?}", map);
 
-        thread::sleep(time::Duration::from_secs(1));
+        thread::sleep(time::Duration::from_secs(interval));
     }
 }
