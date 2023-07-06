@@ -1,13 +1,13 @@
 mod config_parser;
 mod process_command;
 
-use config_parser::{get_value_or_default, retrieve_config};
+use config_parser::ConfigParser;
 use process_command::ProcessCommand;
 use std::{thread, time};
 
 fn main() {
-    let config = retrieve_config();
-    let interval = get_value_or_default(&config, "core", "interval", "1");
+    let config = ConfigParser::new();
+    let interval = config.get_value_or_default("nonexistent", "name", "1");
 
     println!("{}", interval);
 
