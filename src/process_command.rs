@@ -10,6 +10,11 @@ pub struct ProcessCommand {
 impl ProcessCommand {
     pub fn new() -> Self {
         let mut command = Command::new("ps");
+        
+        #[cfg(target_os = "macos")]
+        command.args(&["-e", "-o", "pid,rss", "-m"]);
+
+        #[cfg(target_os = "linux")]
         command.args(&["-e", "-o", "pid,drs", "--sort", "-drs"]);
 
         Self { command }
