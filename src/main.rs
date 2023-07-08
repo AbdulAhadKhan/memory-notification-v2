@@ -1,9 +1,9 @@
 pub mod config_parser;
 mod policies;
-use crate::policies::ProcessObserverTrait;
 mod process_command;
 
 use config_parser::ConfigParser;
+use policies::{process_observer, process_observer::ProcessObserverTrait};
 use process_command::ProcessCommand;
 use std::{thread, time};
 
@@ -18,7 +18,7 @@ fn main() {
     let lower_limit = config.get_value_or_default(MODULE, "lower_limit", "5000");
     let lower_limit = lower_limit.parse::<u64>().unwrap();
 
-    let mut process_observer = policies::ProcessObserver::new(10);
+    let mut process_observer = process_observer::ProcessObserver::new(5);
 
     loop {
         let mut process_command = ProcessCommand::new(lower_limit);
