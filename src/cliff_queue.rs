@@ -1,4 +1,4 @@
-struct CliffQueue<T> {
+pub struct CliffQueue<T> {
     queue: VecDeque<T>,
     max_size: usize,
 }
