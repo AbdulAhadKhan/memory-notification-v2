@@ -9,6 +9,10 @@ pub struct ProcessObserver {
     window_size: usize,
 }
 
+pub trait ProcessObserverTrait {
+    fn update_processes(&mut self, processes: HashMap<u32, u64>);
+}
+
 impl ProcessObserver {
     pub fn new(window_size: usize) -> Self {
         let processes = HashMap::new();
@@ -17,8 +21,10 @@ impl ProcessObserver {
             window_size,
         }
     }
+}
 
-    pub fn update_processes(&mut self, processes: HashMap<u32, u64>) {
+impl ProcessObserverTrait for ProcessObserver {
+    fn update_processes(&mut self, processes: HashMap<u32, u64>) {
         self.processes.retain(|pid, _| processes.contains_key(pid));
         for (pid, cpu_usage) in processes {
             if !self.processes.contains_key(&pid) {
