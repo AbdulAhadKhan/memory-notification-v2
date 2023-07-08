@@ -10,7 +10,7 @@ pub struct ProcessCommand {
 impl ProcessCommand {
     pub fn new() -> Self {
         let mut command = Command::new("ps");
-        
+
         #[cfg(target_os = "macos")]
         command.args(&["-e", "-o", "pid,rss", "-m"]);
 
@@ -24,17 +24,21 @@ impl ProcessCommand {
         self.command.output().expect("failed to execute process")
     }
 
-    pub fn convert_output_to_map(&mut self) -> HashMap<String, String> {
+    pub fn convert_output_to_map(&mut self) -> HashMap<u32, u64> {
         let output = self.execute();
         let output = String::from_utf8_lossy(&output.stdout);
         let mut map = HashMap::new();
 
-        for line in output.lines() {
-            let mut iter = line.split_whitespace();
-            let pid = iter.next().unwrap();
-            let drs = iter.next().unwrap();
+        // Skip the first line, which is the header.
+        let mut output = output.lines();
+        output.next();
 
-            map.insert(pid.to_string(), drs.to_string());
+        for line in output {
+            let mut iter = line.split_whitespace();
+            let pid = iter.next().unwrap().parse::<u32>().unwrap();
+            let drs = iter.next().unwrap().parse::<u64>().unwrap();
+
+            map.insert(pid, drs);
         }
 
         map
