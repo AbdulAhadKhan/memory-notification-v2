@@ -1,2 +1,3 @@
 [core]
 interval = 1
+lower_limit = 50_000

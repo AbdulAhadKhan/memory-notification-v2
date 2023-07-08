@@ -5,10 +5,11 @@ use std::{
 
 pub struct ProcessCommand {
     command: Command,
+    lower_limit: u64,
 }
 
 impl ProcessCommand {
-    pub fn new() -> Self {
+    pub fn new(lower_limit: u64) -> Self {
         let mut command = Command::new("ps");
 
         #[cfg(target_os = "macos")]
@@ -17,7 +18,10 @@ impl ProcessCommand {
         #[cfg(target_os = "linux")]
         command.args(&["-e", "-o", "pid,drs", "--sort", "-drs"]);
 
-        Self { command }
+        Self {
+            command,
+            lower_limit,
+        }
     }
 
     pub fn execute(&mut self) -> Output {
@@ -38,7 +42,9 @@ impl ProcessCommand {
             let pid = iter.next().unwrap().parse::<u32>().unwrap();
             let drs = iter.next().unwrap().parse::<u64>().unwrap();
 
-            map.insert(pid, drs);
+            if drs > self.lower_limit {
+                map.insert(pid, drs);
+            }
         }
 
         map
