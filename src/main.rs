@@ -1,5 +1,6 @@
-mod config_parser;
+pub mod config_parser;
 mod policies;
+use crate::policies::ProcessObserverTrait;
 mod process_command;
 
 use config_parser::ConfigParser;
