@@ -28,7 +28,7 @@ fn build_string(violations: Vec<(u32, u64)>) -> String {
     message.push_str(&format!("\n[UTC TIMESTAMP: {}]\n", time));
 
     for (pid, cpu_usage) in violations {
-        message.push_str(&format!("PID: {}\tMEM: {}\n", pid, cpu_usage));
+        message.push_str(&format!("PID: {: <8}\tMEM: {}\n", pid, cpu_usage));
     }
     message
 }
@@ -44,7 +44,49 @@ pub fn p1_log_on_lower(processes: &ProcessObserver, lower_limit: u64) {
 
     if !violations.is_empty() {
         let message = build_string(violations);
-        println!("{}", message);
+        println!("P1 VIOLATIONS{}", message);
         log_to_file("p1.log", &message);
+    }
+}
+
+pub fn p2_delayed_email_on_upper(processes: &ProcessObserver, upper_limit: u64) {
+    let mut violations: Vec<(u32, u64)> = Vec::new();
+
+    for (pid, queue) in processes.iter() {
+        let observations = queue.observe_last_n(5);
+        if observations.iter().all(|&x| x > &upper_limit) {
+            violations.push((*pid, *queue.observe_last_n(1)[0]));
+        }
+    }
+
+    if !violations.is_empty() {
+        let message = build_string(violations);
+        println!("P2 VIOLATIONS{}", message);
+        log_to_file("p2.log", &message);
+    }
+}
+
+pub fn p3_lower_upper_lower_spike_log(
+    processes: &ProcessObserver,
+    lower_limit: u64,
+    upper_limit: u64,
+) {
+    let mut violations: Vec<(u32, u64)> = Vec::new();
+
+    for (pid, queue) in processes.iter() {
+        let observations = queue.observe_last_n(3);
+        if observations[2] != &0
+            && observations[0] < &lower_limit
+            && observations[1] > &upper_limit
+            && observations[2] < &lower_limit
+        {
+            violations.push((*pid, *queue.observe_last_n(1)[0]));
+        }
+    }
+
+    if !violations.is_empty() {
+        let message = build_string(violations);
+        println!("P3 VIOLATIONS{}", message);
+        log_to_file("p3.log", &message);
     }
 }
