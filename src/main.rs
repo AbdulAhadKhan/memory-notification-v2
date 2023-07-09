@@ -3,7 +3,7 @@ mod policies;
 mod process_command;
 
 use config_parser::ConfigParser;
-use policies::{process_observer, process_observer::ProcessObserverTrait};
+use policies::{process_observer, ProcessObserverTrait};
 use process_command::ProcessCommand;
 use std::{thread, time};
 
