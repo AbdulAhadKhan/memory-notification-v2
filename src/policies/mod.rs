@@ -90,3 +90,29 @@ pub fn p3_lower_upper_lower_spike_log(
         log_to_file("p3.log", &message);
     }
 }
+
+pub fn p4_lower_mid_lower_spike_log(
+    processes: &ProcessObserver,
+    lower_limit: u64,
+    upper_limit: u64,
+) {
+    let mut violations: Vec<(u32, u64)> = Vec::new();
+
+    for (pid, queue) in processes.iter() {
+        let observations = queue.observe_last_n(3);
+        if observations[2] != &0
+            && observations[0] < &lower_limit
+            && observations[1] < &upper_limit
+            && observations[1] > &lower_limit
+            && observations[2] < &lower_limit
+        {
+            violations.push((*pid, *queue.observe_last_n(1)[0]));
+        }
+    }
+
+    if !violations.is_empty() {
+        let message = build_string(violations);
+        println!("P4 VIOLATIONS{}", message);
+        log_to_file("p4.log", &message);
+    }
+}
