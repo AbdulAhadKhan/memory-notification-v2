@@ -5,7 +5,7 @@ mod process_command;
 use config_parser::ConfigParser;
 use policies::{
     p1_log_on_lower, p2_delayed_email_on_upper, p3_lower_upper_lower_spike_log,
-    p4_lower_mid_lower_spike_log,
+    p4_lower_mid_lower_spike_log, p5_lower_upper_mid_spike_log,
 };
 use policies::{process_observer, ProcessObserverTrait};
 use process_command::ProcessCommand;
@@ -36,6 +36,7 @@ fn main() {
         p2_delayed_email_on_upper(&process_observer, lower_limit);
         p3_lower_upper_lower_spike_log(&process_observer, lower_limit, upper_limit);
         p4_lower_mid_lower_spike_log(&process_observer, lower_limit, upper_limit);
+        p5_lower_upper_mid_spike_log(&process_observer, lower_limit, upper_limit);
 
         thread::sleep(time::Duration::from_secs(interval));
     }
