@@ -3,7 +3,7 @@ mod policies;
 mod process_command;
 
 use config_parser::ConfigParser;
-use policies::{process_observer, ProcessObserverTrait};
+use policies::{p1_log_on_lower, process_observer, ProcessObserverTrait};
 use process_command::ProcessCommand;
 use std::{thread, time};
 
@@ -24,10 +24,8 @@ fn main() {
         let mut process_command = ProcessCommand::new(lower_limit);
         let map = process_command.convert_output_to_map();
 
-        println!("Map: {:?}", map);
-
         process_observer.update_processes(map);
-        println!("Observer: {:?}\n", process_observer);
+        p1_log_on_lower(&process_observer);
 
         thread::sleep(time::Duration::from_secs(interval));
     }
