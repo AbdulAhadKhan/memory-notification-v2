@@ -25,7 +25,7 @@ fn main() {
         let map = process_command.convert_output_to_map();
 
         process_observer.update_processes(map);
-        p1_log_on_lower(&process_observer);
+        p1_log_on_lower(&process_observer, lower_limit);
 
         thread::sleep(time::Duration::from_secs(interval));
     }

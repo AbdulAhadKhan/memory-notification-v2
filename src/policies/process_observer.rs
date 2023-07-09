@@ -1,7 +1,5 @@
-use toml::map::Iter;
-
 use crate::policies::cliff_queue::CliffQueue;
-use std::collections::HashMap;
+use std::collections::{hash_map, HashMap};
 
 #[derive(Debug)]
 pub struct ProcessObserver {
@@ -22,7 +20,7 @@ impl ProcessObserver {
         }
     }
 
-    pub fn iter(&self) -> std::collections::hash_map::Iter<'_, u32, CliffQueue<u64>> {
+    pub fn iter(&self) -> hash_map::Iter<'_, u32, CliffQueue<u64>> {
         self.processes.iter()
     }
 }
