@@ -1,4 +1,4 @@
 [core]
 interval = 1
-lower_limit = 50_000
-upper_limit = 100_000
+lower_limit = 200_000
+upper_limit = 3_000_000
