@@ -13,7 +13,7 @@ The **Auto Notification - Memory Usage by Processes** project aims to develop a 
 
 ## Prerequisites
 
-- C programming knowledge.
+- C and Rust programming knowledge.
 - Familiarity with Linux system calls.
 - Proficiency in bash scripting.
 - Linux operating system.
