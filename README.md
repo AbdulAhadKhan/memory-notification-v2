@@ -2,41 +2,53 @@
 
 # Auto Notification - Memory Usage by Processes
 
-The **Auto Notification - Memory Usage by Processes** project aims to develop a bash script that continuously monitors the memory allocated to various processes during runtime. The script sends email notifications to network administrators when the memory allotment to a process exceeds a predefined threshold. This automated solution helps system administrators identify and address excessive memory usage, ensuring optimal system performance.
+The **Auto Notification - Memory Usage by Processes** project aims to develop a system utility that continuously monitors memory allocated to various processes during runtime. The script sends email notifications to system administrators when the memory consumption violates predefined policies. This automated solution helps system administrators identify and address excessive memory usage, ensuring optimal system performance.
 
 ## Features
 
-- Continuous monitoring of memory usage by processes.
-- Real-time notifications via email when memory thresholds are exceeded.
-- Customizable memory thresholds for individual processes.
-- Lightweight and efficient implementation using bash scripting and Linux system calls.
+-   Continuous monitoring of memory usage by processes.
+-   Real-time notifications via email when policies are violated.
+-   Policy customization using configurations.
+-   Blazing fast utility using the Rust Lang 🦀.
 
 ## Prerequisites
 
-- C programming knowledge.
-- Familiarity with Linux system calls.
-- Proficiency in bash scripting.
-- Linux operating system.
+-   Rust programming knowledge.
+-   Familiarity with Linux/Unix system calls.
+-   Proficiency in bash scripting.
 
 ## Usage
 
-1. Clone the repository to your local machine.
-2. Open the bash script file (`monitor_memory.sh`) in a text editor.
-3. Customize the script as needed:
-   - Set the desired memory threshold for each process in the `THRESHOLDS` array.
-   - Configure the email settings (SMTP server, sender, recipient, etc.) in the `send_email_notification` function.
-4. Save the modifications.
-5. Run the script using the following command:
+1. Ensure that Rust is installed on your system. If not, follow the instructions [here](https://www.rust-lang.org/tools/install) to install Rust.
+2. Clone the repository to your local machine.
+3. CD into the repository directory.
+4. Run the following command to build the project:
 
+    ```bash
+    cargo build --release
+    ```
+
+5. Edit the `config.toml` file to customize the policies and email settings.
+6. Run the following command to execute the project:
+
+    ```bash
+    ./target/release/memory-notification-v2
+    ```
+
+Alternatively you can install the utility system-wide by running the following command:
+
+```bash
+cargo install --path .
+```
 
 ## Future Scope
 
 The **Auto Notification - Memory Usage by Processes** project has potential for further enhancements and expansions, including:
 
-- Integration with other notification channels (SMS, instant messaging platforms).
-- Dynamic threshold configuration based on application requirements.
-- Detailed reports and analytics on memory usage trends.
-- Integration with existing monitoring systems (Nagios, Zabbix, etc.).
+-   Integration with other notification channels (SMS, instant messaging platforms).
+-   Dynamic threshold configuration based on application requirements.
+-   Detailed reports and analytics on memory usage trends.
+-   Integration with existing monitoring systems (Nagios, Zabbix, etc.).
 
 ## Contributing
 
@@ -55,7 +67,3 @@ This project is licensed under the [MIT License](LICENSE).
 ## Acknowledgments
 
 We would like to acknowledge the contributions of the open-source community and the valuable resources that helped in the development of this project.
-
-## Contact
-
-For any questions or inquiries, please contact [email protected].
