@@ -1,4 +1,4 @@
-# memory-notification-v2
+# Memory Notification v2
 
 # Auto Notification - Memory Usage by Processes
 
