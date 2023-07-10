@@ -28,7 +28,7 @@ fn main() {
     let mut process_observer = process_observer::ProcessObserver::new(5);
 
     loop {
-        let mut process_command = ProcessCommand::new(lower_limit);
+        let mut process_command = ProcessCommand::new();
         let map = process_command.convert_output_to_map();
 
         process_observer.update_processes(map);
