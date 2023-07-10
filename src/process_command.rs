@@ -42,9 +42,7 @@ impl ProcessCommand {
             let pid = iter.next().unwrap().parse::<u32>().unwrap();
             let drs = iter.next().unwrap().parse::<u64>().unwrap();
 
-            if drs > self.lower_limit {
-                map.insert(pid, drs);
-            }
+            map.insert(pid, drs);
         }
 
         map
