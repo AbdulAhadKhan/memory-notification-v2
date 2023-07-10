@@ -128,9 +128,9 @@ pub fn p5_lower_upper_mid_spike_log(
         let observations = queue.observe_last_n(3);
         if observations[2] != &0
             && observations[0] < &lower_limit
-            && observations[1] > &upper_limit
-            && observations[2] < &upper_limit
-            && observations[2] > &lower_limit
+            && observations[1] > &lower_limit
+            && observations[1] < &upper_limit
+            && observations[2] < &lower_limit
         {
             violations.push((*pid, *queue.observe_last_n(1)[0]));
         }
