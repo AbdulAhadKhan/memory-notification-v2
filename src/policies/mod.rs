@@ -1,6 +1,7 @@
 pub mod cliff_queue;
 pub mod process_observer;
 
+use crate::CONFIGS;
 use chrono;
 use process_observer::ProcessObserver;
 pub use process_observer::ProcessObserverTrait;
@@ -33,7 +34,8 @@ fn build_string(violations: Vec<(u32, u64)>) -> String {
     message
 }
 
-pub fn p1_log_on_lower(processes: &ProcessObserver, lower_limit: u64) {
+pub fn p1_log_on_lower(processes: &ProcessObserver) {
+    let lower_limit = CONFIGS.core.lower_limit;
     let mut violations: Vec<(u32, u64)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
@@ -49,7 +51,8 @@ pub fn p1_log_on_lower(processes: &ProcessObserver, lower_limit: u64) {
     }
 }
 
-pub fn p2_delayed_email_on_upper(processes: &ProcessObserver, upper_limit: u64) {
+pub fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
+    let upper_limit = CONFIGS.core.upper_limit;
     let mut violations: Vec<(u32, u64)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
@@ -66,11 +69,9 @@ pub fn p2_delayed_email_on_upper(processes: &ProcessObserver, upper_limit: u64) 
     }
 }
 
-pub fn p3_lower_upper_lower_spike_log(
-    processes: &ProcessObserver,
-    lower_limit: u64,
-    upper_limit: u64,
-) {
+pub fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
+    let lower_limit = CONFIGS.core.lower_limit;
+    let upper_limit = CONFIGS.core.upper_limit;
     let mut violations: Vec<(u32, u64)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
@@ -91,11 +92,9 @@ pub fn p3_lower_upper_lower_spike_log(
     }
 }
 
-pub fn p4_lower_mid_lower_spike_log(
-    processes: &ProcessObserver,
-    lower_limit: u64,
-    upper_limit: u64,
-) {
+pub fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
+    let lower_limit = CONFIGS.core.lower_limit;
+    let upper_limit = CONFIGS.core.upper_limit;
     let mut violations: Vec<(u32, u64)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
@@ -117,11 +116,9 @@ pub fn p4_lower_mid_lower_spike_log(
     }
 }
 
-pub fn p5_lower_upper_mid_spike_log(
-    processes: &ProcessObserver,
-    lower_limit: u64,
-    upper_limit: u64,
-) {
+pub fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
+    let lower_limit = CONFIGS.core.lower_limit;
+    let upper_limit = CONFIGS.core.upper_limit;
     let mut violations: Vec<(u32, u64)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
