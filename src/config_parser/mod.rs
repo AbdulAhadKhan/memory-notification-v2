@@ -7,6 +7,7 @@ pub struct Config {
     pub core: Core,
     pub policies: Policies,
     pub email: Email,
+    pub policy_configs: PolicyConfigs,
 }
 
 #[derive(Deserialize, Debug)]
@@ -40,12 +41,52 @@ pub struct Email {
     pub smtp_to: String,
 }
 
+#[derive(Deserialize, Debug)]
+#[serde(default)]
+pub struct PolicyConfigs {
+    pub p1_log_file: String,
+    pub p2_configs: P2Configs,
+    pub p3_configs: P3Configs,
+    pub p4_configs: P4Configs,
+    pub p5_configs: P5Configs,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(default)]
+pub struct P2Configs {
+    pub delay: u64,
+    pub log_file: String,
+    pub enable_email: bool,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(default)]
+pub struct P3Configs {
+    pub log_file: String,
+    pub enable_email: bool,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(default)]
+pub struct P4Configs {
+    pub log_file: String,
+    pub enable_email: bool,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(default)]
+pub struct P5Configs {
+    pub log_file: String,
+    pub enable_email: bool,
+}
+
 impl Default for Config {
     fn default() -> Self {
         Self {
             core: Core::default(),
             policies: Policies::default(),
             email: Email::default(),
+            policy_configs: PolicyConfigs::default(),
         }
     }
 }
@@ -83,6 +124,55 @@ impl Default for Email {
             smtp_password: "".to_string(),
             smtp_from: "".to_string(),
             smtp_to: "".to_string(),
+        }
+    }
+}
+
+impl Default for PolicyConfigs {
+    fn default() -> Self {
+        Self {
+            p1_log_file: "p1.log".to_string(),
+            p2_configs: P2Configs::default(),
+            p3_configs: P3Configs::default(),
+            p4_configs: P4Configs::default(),
+            p5_configs: P5Configs::default(),
+        }
+    }
+}
+
+impl Default for P2Configs {
+    fn default() -> Self {
+        Self {
+            delay: 60,
+            log_file: "p2.log".to_string(),
+            enable_email: false,
+        }
+    }
+}
+
+impl Default for P3Configs {
+    fn default() -> Self {
+        Self {
+            log_file: "p3.log".to_string(),
+            enable_email: false,
+        }
+    }
+}
+
+impl Default for P4Configs {
+    fn default() -> Self {
+        Self {
+            log_file: "p4.log".to_string(),
+            enable_email: false,
+        }
+    }
+}
+
+impl Default for P5Configs {
+    fn default() -> Self {
+        Self {
+            log_file: "p5.log".to_string(),
+            enable_email: false,
         }
     }
 }
