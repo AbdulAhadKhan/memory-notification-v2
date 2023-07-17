@@ -24,34 +24,33 @@ pub struct Email {
     pub enabled: bool,
     pub smtp_server: String,
     pub smtp_port: u16,
-    pub smtp_username: String,
-    pub smtp_password: String,
-    pub smtp_from: String,
-    pub smtp_to: String,
+    pub email: String,
+    pub password: String,
+    pub recipient: String,
 }
 
 #[derive(Deserialize, Debug)]
 #[serde(default)]
 pub struct PolicyConfigs {
-    pub p1_configs: P1Configs,
-    pub p2_configs: P2Configs,
-    pub p3_configs: P3Configs,
-    pub p4_configs: P4Configs,
-    pub p5_configs: P5Configs,
+    pub policy_1: P1Configs,
+    pub policy_2: P2Configs,
+    pub policy_3: P3Configs,
+    pub policy_4: P4Configs,
+    pub policy_5: P5Configs,
 }
 
 #[derive(Deserialize, Debug)]
 #[serde(default)]
 pub struct P1Configs {
-    pub enable_policy: bool,
+    pub enabled: bool,
     pub log_file: String,
 }
 
 #[derive(Deserialize, Debug)]
 #[serde(default)]
 pub struct P2Configs {
-    pub enable_policy: bool,
-    pub delay: u64,
+    pub enabled: bool,
+    pub delay: usize,
     pub log_file: String,
     pub enable_email: bool,
 }
@@ -59,7 +58,7 @@ pub struct P2Configs {
 #[derive(Deserialize, Debug)]
 #[serde(default)]
 pub struct P3Configs {
-    pub enable_policy: bool,
+    pub enabled: bool,
     pub log_file: String,
     pub enable_email: bool,
 }
@@ -67,7 +66,7 @@ pub struct P3Configs {
 #[derive(Deserialize, Debug)]
 #[serde(default)]
 pub struct P4Configs {
-    pub enable_policy: bool,
+    pub enabled: bool,
     pub log_file: String,
     pub enable_email: bool,
 }
@@ -75,7 +74,7 @@ pub struct P4Configs {
 #[derive(Deserialize, Debug)]
 #[serde(default)]
 pub struct P5Configs {
-    pub enable_policy: bool,
+    pub enabled: bool,
     pub log_file: String,
     pub enable_email: bool,
 }
@@ -107,10 +106,9 @@ impl Default for Email {
             enabled: false,
             smtp_server: "".to_string(),
             smtp_port: 0,
-            smtp_username: "".to_string(),
-            smtp_password: "".to_string(),
-            smtp_from: "".to_string(),
-            smtp_to: "".to_string(),
+            email: "".to_string(),
+            password: "".to_string(),
+            recipient: "".to_string(),
         }
     }
 }
@@ -118,11 +116,11 @@ impl Default for Email {
 impl Default for PolicyConfigs {
     fn default() -> Self {
         Self {
-            p1_configs: P1Configs::default(),
-            p2_configs: P2Configs::default(),
-            p3_configs: P3Configs::default(),
-            p4_configs: P4Configs::default(),
-            p5_configs: P5Configs::default(),
+            policy_1: P1Configs::default(),
+            policy_2: P2Configs::default(),
+            policy_3: P3Configs::default(),
+            policy_4: P4Configs::default(),
+            policy_5: P5Configs::default(),
         }
     }
 }
@@ -130,8 +128,8 @@ impl Default for PolicyConfigs {
 impl Default for P1Configs {
     fn default() -> Self {
         Self {
-            enable_policy: true,
-            log_file: "p1.log".to_string(),
+            enabled: true,
+            log_file: "policy_1.log".to_string(),
         }
     }
 }
@@ -139,9 +137,9 @@ impl Default for P1Configs {
 impl Default for P2Configs {
     fn default() -> Self {
         Self {
-            enable_policy: true,
+            enabled: true,
             delay: 60,
-            log_file: "p2.log".to_string(),
+            log_file: "policy_2.log".to_string(),
             enable_email: false,
         }
     }
@@ -150,8 +148,8 @@ impl Default for P2Configs {
 impl Default for P3Configs {
     fn default() -> Self {
         Self {
-            enable_policy: true,
-            log_file: "p3.log".to_string(),
+            enabled: true,
+            log_file: "policy_3.log".to_string(),
             enable_email: false,
         }
     }
@@ -160,8 +158,8 @@ impl Default for P3Configs {
 impl Default for P4Configs {
     fn default() -> Self {
         Self {
-            enable_policy: true,
-            log_file: "p4.log".to_string(),
+            enabled: true,
+            log_file: "policy_4.log".to_string(),
             enable_email: false,
         }
     }
@@ -170,8 +168,8 @@ impl Default for P4Configs {
 impl Default for P5Configs {
     fn default() -> Self {
         Self {
-            enable_policy: true,
-            log_file: "p5.log".to_string(),
+            enabled: true,
+            log_file: "policy_5.log".to_string(),
             enable_email: false,
         }
     }
@@ -180,6 +178,26 @@ impl Default for P5Configs {
 impl Config {
     pub fn new() -> Self {
         let config = std::fs::read_to_string("config.toml").expect("Unable to read config file");
-        toml::from_str(&config).expect("Unable to parse config file")
+        let config: Config = toml::from_str(&config).expect("Unable to parse config file");
+
+        // Assertions for valid config values
+        assert!(
+            config.core.lower_limit < config.core.upper_limit,
+            "Lower limit must be less than upper limit"
+        );
+
+        assert!(
+            config.core.observation_window > 0,
+            "Observation window must be greater than 0"
+        );
+
+        assert!(config.core.interval > 0, "Interval must be greater than 0");
+
+        assert!(
+            config.policy_configs.policy_2.delay > config.core.observation_window,
+            "Delay for policy 2 must be greater than observation window"
+        );
+
+        config
     }
 }
