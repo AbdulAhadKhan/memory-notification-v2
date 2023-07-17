@@ -1,5 +1,7 @@
 # Memory Notification v2
 
+![Build Status](https://github.com/AbdulAhadKhan/memory-notification-v2/actions/workflows/rust.yml/badge.svg)
+
 # Auto Notification - Memory Usage by Processes
 
 The **Auto Notification - Memory Usage by Processes** project aims to develop a system utility that continuously monitors memory allocated to various processes during runtime. The script sends email notifications to system administrators when the memory consumption violates predefined policies. This automated solution helps system administrators identify and address excessive memory usage, ensuring optimal system performance.
