@@ -1,4 +1,38 @@
 [core]
 interval = 1
-lower_limit = 200_000
-upper_limit = 3_000_000
+lower_limit = 5_000
+upper_limit = 10_000
+observation_window = 10
+
+[email]
+enabled = true
+smtp_server = ""
+smtp_port = 465
+email = ""
+password = ""
+recipient = ""
+
+[policy_configs.policy_1]
+enabled = true
+log_file = "policy_1.log"
+
+[policy_configs.policy_2]
+enabled = true
+delay = 5
+log_file = "policy_2.log"
+enable_email = false
+
+[policy_configs.policy_3]
+enabled = true
+log_file = "policy_3.log"
+enable_email = false
+
+[policy_configs.policy_4]
+enabled = true
+log_file = "policy_4.log"
+enable_email = false
+
+[policy_configs.policy_5]
+enabled = true
+log_file = "policy_5.log"
+enable_email = false
