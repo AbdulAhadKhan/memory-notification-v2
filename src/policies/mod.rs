@@ -8,9 +8,13 @@ use process_observer::ProcessObserver;
 pub use process_observer::ProcessObserverTrait;
 use utils::{build_string, log_to_file};
 
-pub fn p1_log_on_lower(processes: &ProcessObserver) {
+fn p1_log_on_lower(processes: &ProcessObserver) {
+    if !CONFIGS.policy_configs.p1_configs.enable_policy {
+        return;
+    }
+
     let lower_limit = CONFIGS.core.lower_limit;
-    let file_name = &CONFIGS.policy_configs.p1_log_file;
+    let file_name = &CONFIGS.policy_configs.p1_configs.log_file;
     let mut violations: Vec<(u32, u64)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
@@ -26,7 +30,11 @@ pub fn p1_log_on_lower(processes: &ProcessObserver) {
     }
 }
 
-pub fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
+fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
+    if !CONFIGS.policy_configs.p2_configs.enable_policy {
+        return;
+    }
+
     let upper_limit = CONFIGS.core.upper_limit;
     let file_name = &CONFIGS.policy_configs.p2_configs.log_file;
     let mut violations: Vec<(u32, u64)> = Vec::new();
@@ -45,7 +53,11 @@ pub fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
     }
 }
 
-pub fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
+fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
+    if !CONFIGS.policy_configs.p3_configs.enable_policy {
+        return;
+    }
+
     let lower_limit = CONFIGS.core.lower_limit;
     let upper_limit = CONFIGS.core.upper_limit;
     let file_name = &CONFIGS.policy_configs.p3_configs.log_file;
@@ -69,7 +81,11 @@ pub fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
     }
 }
 
-pub fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
+fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
+    if !CONFIGS.policy_configs.p4_configs.enable_policy {
+        return;
+    }
+
     let lower_limit = CONFIGS.core.lower_limit;
     let upper_limit = CONFIGS.core.upper_limit;
     let file_name = &CONFIGS.policy_configs.p4_configs.log_file;
@@ -94,7 +110,11 @@ pub fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
     }
 }
 
-pub fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
+fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
+    if !CONFIGS.policy_configs.p5_configs.enable_policy {
+        return;
+    }
+
     let lower_limit = CONFIGS.core.lower_limit;
     let upper_limit = CONFIGS.core.upper_limit;
     let file_name = &CONFIGS.policy_configs.p5_configs.log_file;
@@ -117,4 +137,12 @@ pub fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
         println!("P5 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
     }
+}
+
+pub fn run_policies(processes: &ProcessObserver) {
+    p1_log_on_lower(processes);
+    p2_delayed_email_on_upper(processes);
+    p3_lower_upper_lower_spike_log(processes);
+    p4_lower_mid_lower_spike_log(processes);
+    p5_lower_upper_mid_spike_log(processes);
 }
