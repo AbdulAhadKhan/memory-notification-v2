@@ -1,11 +1,12 @@
 pub mod cliff_queue;
 pub mod process_observer;
 
+mod utils;
+
 use crate::CONFIGS;
-use chrono;
 use process_observer::ProcessObserver;
 pub use process_observer::ProcessObserverTrait;
-use std::{fs, io};
+use utils::{build_string, log_to_file};
 
 pub fn p1_log_on_lower(processes: &ProcessObserver) {
     let lower_limit = CONFIGS.core.lower_limit;

@@ -1,4 +1,7 @@
-fn log_to_file(file_name: &str, message: &str) {
+use chrono;
+use std::{fs, io};
+
+pub fn log_to_file(file_name: &str, message: &str) {
     use fs::OpenOptions;
     use io::Write;
 
@@ -13,7 +16,7 @@ fn log_to_file(file_name: &str, message: &str) {
     }
 }
 
-fn build_string(violations: Vec<(u32, u64)>) -> String {
+pub fn build_string(violations: Vec<(u32, u64)>) -> String {
     let mut message = String::new();
     let time = chrono::Utc::now();
 
