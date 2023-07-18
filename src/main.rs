@@ -1,4 +1,5 @@
 pub mod config_parser;
+mod email;
 mod policies;
 mod process_command;
 
