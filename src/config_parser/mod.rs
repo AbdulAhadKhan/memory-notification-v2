@@ -180,23 +180,32 @@ impl Config {
         let config = std::fs::read_to_string("config.toml").expect("Unable to read config file");
         let config: Config = toml::from_str(&config).expect("Unable to parse config file");
 
-        // Assertions for valid config values
-        assert!(
-            config.core.lower_limit < config.core.upper_limit,
-            "Lower limit must be less than upper limit"
+        println!(
+            "Lower Limit: {:#?}\tUpper Limit: {:#?}\tUpper > Lower: {:#?}",
+            config.core.lower_limit,
+            config.core.upper_limit,
+            config.core.lower_limit < config.core.upper_limit
         );
 
-        assert!(
-            config.core.observation_window > 0,
-            "Observation window must be greater than 0"
-        );
+        if config.core.lower_limit > config.core.upper_limit {
+            println!("Lower limit must be less than upper limit");
+            std::process::exit(1);
+        }
 
-        assert!(config.core.interval > 0, "Interval must be greater than 0");
+        if config.core.observation_window <= 0 {
+            println!("Observation window must be greater than 0");
+            std::process::exit(1);
+        }
 
-        assert!(
-            config.policy_configs.policy_2.delay > config.core.observation_window,
-            "Delay for policy 2 must be greater than observation window"
-        );
+        if config.core.interval <= 0 {
+            println!("Interval must be greater than 0");
+            std::process::exit(1);
+        };
+
+        if config.policy_configs.policy_2.delay > config.core.observation_window {
+            println!("Delay for policy 2 must be greater than observation window");
+            std::process::exit(1);
+        }
 
         config
     }
