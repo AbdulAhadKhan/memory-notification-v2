@@ -1,9 +1,39 @@
+#   policy_1:  This policy checks for processes that exceed a certain data resident set size (DRS) limit (lower_limit). 
+#   If a process exceeds the limit, it is logged as a policy violation.
+
+#   policy_2: This policy checks for processes that exceed a certain DRS limit for a specified amount of time. 
+#   If a process exceeds the limit for the specified amount of time, it is logged as a policy violation.
+
+#   policy_3: This policy checks for processes that have been running for a defined amount of time and are below the lower limit.
+#   If a process exceeds both the lower and upper limits and returns within a specific time interval, it is noted as a policy violation.
+
+#   policy_4: This policy checks for processes that have been running for a set amount of time and have not exceeded a given lower limit. 
+#   If a process crosses the lower bound and then returns without passing the higher bound within a given period, it is noted as a policy violation.
+
+#   policy_5: The purpose of this policy is to monitor processes that have been active for a specific duration without surpassing a designated lower limit. 
+#   In case a process surpasses the lower bound, subsequently surpasses the upper bound, 
+#   and then reverts back to operating between the lower and upper limits, it will be flagged as a violation of this policy.
+
+
+#   This section defines core configuration values for the application. 
+#   The interval value specifies the wait time for each iteration (in seconds). 
+#   The lower_limit and upper_limit values specify the lower and upper limits of the data resident set size (in bytes), respectively. 
+#   The observation_window value specifies the size of the queue used to analyze processes. 
 [core]
 interval = 1
 lower_limit = 5_000
 upper_limit = 10_000
 observation_window = 10
 
+
+#   This section defines email configuration values for the application. 
+#   The enabled value specifies whether or not email notifications are enabled.
+#   Having this disabled will prevent the application from sending email notifications globally.
+#   The smtp_server value specifies the SMTP server to use for sending email notifications. 
+#   The smtp_port value specifies the port to use for the SMTP server. 
+#   The email value specifies the email address to use for sending email notifications. 
+#   The password value specifies the password to use for the email address. 
+#   The recipient value specifies the email address to send notifications to
 [email]
 enabled = true
 smtp_server = ""
@@ -12,13 +42,20 @@ email = ""
 password = ""
 recipient = ""
 
+
+#   This section defines configuration values for policy                                                                     }
+#   The enabled value specifies whether or not the policy is enabled.                                                        }   
+#   The log_file value specifies the log file (with path) to write policy violations to.                                     }   it's for all 5 policies
+#   The enable_email value specifies whether or not to send email notifications for policy violations.                       }
+
+
 [policy_configs.policy_1]
 enabled = true
 log_file = "policy_1.log"
 
 [policy_configs.policy_2]
 enabled = true
-delay = 5
+delay = 5                               #   The delay value specifies the delay (in seconds) before triggering the policy.                                 
 log_file = "policy_2.log"
 enable_email = false
 
