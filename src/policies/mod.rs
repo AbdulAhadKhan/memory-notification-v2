@@ -3,6 +3,7 @@ pub mod process_observer;
 
 mod utils;
 
+use crate::email::EmailHandler;
 use crate::CONFIGS;
 use process_observer::ProcessObserver;
 pub use process_observer::ProcessObserverTrait;
@@ -31,6 +32,13 @@ fn p1_log_on_lower(processes: &ProcessObserver) {
 }
 
 fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
+    let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+
+    let mut email_handler = EmailHandler::new(
+        format!("Policy 2 Violation [{} UTC]", timestamp).as_str(),
+        "Policy 2 violations have been detected. Please check the log file for more details.",
+    );
+
     if !CONFIGS.policy_configs.policy_2.enabled {
         return;
     }
@@ -50,10 +58,21 @@ fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
         let message = build_string(violations);
         println!("P2 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
+        if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
+            email_handler.send_email();
+        }
     }
 }
 
 fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
+    let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+
+    let mut email_handler = EmailHandler::new(
+        format!("Policy 3 Violation [{} UTC]", timestamp).as_str(),
+        "Policy 3 violations have been detected. Please check the log file for more details.",
+    );
+
     if !CONFIGS.policy_configs.policy_3.enabled {
         return;
     }
@@ -78,10 +97,21 @@ fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
         let message = build_string(violations);
         println!("P3 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
+        if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
+            email_handler.send_email();
+        }
     }
 }
 
 fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
+    let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+
+    let mut email_handler = EmailHandler::new(
+        format!("Policy 4 Violation [{} UTC]", timestamp).as_str(),
+        "Policy 4 violations have been detected. Please check the log file for more details.",
+    );
+
     if !CONFIGS.policy_configs.policy_4.enabled {
         return;
     }
@@ -107,10 +137,21 @@ fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
         let message = build_string(violations);
         println!("P4 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
+        if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
+            email_handler.send_email();
+        }
     }
 }
 
 fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
+    let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+
+    let mut email_handler = EmailHandler::new(
+        format!("Policy 5 Violation [{} UTC]", timestamp).as_str(),
+        "Policy 5 violations have been detected. Please check the log file for more details.",
+    );
+
     if !CONFIGS.policy_configs.policy_5.enabled {
         return;
     }
@@ -136,6 +177,10 @@ fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
         let message = build_string(violations);
         println!("P5 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
+        if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
+            email_handler.send_email();
+        }
     }
 }
 
