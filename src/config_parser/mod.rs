@@ -180,13 +180,6 @@ impl Config {
         let config = std::fs::read_to_string("config.toml").expect("Unable to read config file");
         let config: Config = toml::from_str(&config).expect("Unable to parse config file");
 
-        println!(
-            "Lower Limit: {:#?}\tUpper Limit: {:#?}\tUpper > Lower: {:#?}",
-            config.core.lower_limit,
-            config.core.upper_limit,
-            config.core.lower_limit < config.core.upper_limit
-        );
-
         if config.core.lower_limit > config.core.upper_limit {
             println!("Lower limit must be less than upper limit");
             std::process::exit(1);
