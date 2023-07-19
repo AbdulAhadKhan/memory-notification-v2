@@ -16,14 +16,18 @@ pub fn log_to_file(file_name: &str, message: &str) {
     }
 }
 
-pub fn build_string(violations: Vec<(u32, u64)>) -> String {
+pub fn build_string(violations: Vec<(u32, Vec<&u64>)>) -> String {
     let mut message = String::new();
     let time = chrono::Utc::now();
 
     message.push_str(&format!("\n[UTC TIMESTAMP: {}]\n", time));
 
-    for (pid, cpu_usage) in violations {
-        message.push_str(&format!("PID: {: <8}\tMEM: {}\n", pid, cpu_usage));
+    for (pid, memory_usage) in violations {
+        let mut memory = String::new();
+        for mem in memory_usage {
+            memory.push_str(&format!("\t{: <8}", mem));
+        }
+        message.push_str(&format!("PID: {: <8}\tMEM: {}\n", pid, memory));
     }
     message
 }

@@ -16,11 +16,12 @@ fn p1_log_on_lower(processes: &ProcessObserver) {
 
     let lower_limit = CONFIGS.core.lower_limit;
     let file_name = &CONFIGS.policy_configs.policy_1.log_file;
-    let mut violations: Vec<(u32, u64)> = Vec::new();
+    let mut violations: Vec<(u32, Vec<&u64>)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
-        if queue.observe_last_n(1)[0] > &lower_limit {
-            violations.push((*pid, *queue.observe_last_n(1)[0]));
+        let memory = queue.observe_last_n(1);
+        if memory[0] > &lower_limit {
+            violations.push((*pid, memory));
         }
     }
 
@@ -44,13 +45,14 @@ fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
     }
 
     let upper_limit = CONFIGS.core.upper_limit;
+    let delay = CONFIGS.policy_configs.policy_2.delay;
     let file_name = &CONFIGS.policy_configs.policy_2.log_file;
-    let mut violations: Vec<(u32, u64)> = Vec::new();
+    let mut violations: Vec<(u32, Vec<&u64>)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
-        let observations = queue.observe_last_n(5);
+        let observations = queue.observe_last_n(delay);
         if observations.iter().all(|&x| x > &upper_limit) {
-            violations.push((*pid, *queue.observe_last_n(1)[0]));
+            violations.push((*pid, queue.observe_last_n(delay)));
         }
     }
 
@@ -80,7 +82,7 @@ fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
     let lower_limit = CONFIGS.core.lower_limit;
     let upper_limit = CONFIGS.core.upper_limit;
     let file_name = &CONFIGS.policy_configs.policy_3.log_file;
-    let mut violations: Vec<(u32, u64)> = Vec::new();
+    let mut violations: Vec<(u32, Vec<&u64>)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
         let observations = queue.observe_last_n(3);
@@ -89,7 +91,7 @@ fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
             && observations[1] > &upper_limit
             && observations[2] < &lower_limit
         {
-            violations.push((*pid, *queue.observe_last_n(1)[0]));
+            violations.push((*pid, queue.observe_last_n(3)));
         }
     }
 
@@ -119,7 +121,7 @@ fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
     let lower_limit = CONFIGS.core.lower_limit;
     let upper_limit = CONFIGS.core.upper_limit;
     let file_name = &CONFIGS.policy_configs.policy_4.log_file;
-    let mut violations: Vec<(u32, u64)> = Vec::new();
+    let mut violations: Vec<(u32, Vec<&u64>)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
         let observations = queue.observe_last_n(3);
@@ -129,7 +131,7 @@ fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
             && observations[1] > &lower_limit
             && observations[2] < &lower_limit
         {
-            violations.push((*pid, *queue.observe_last_n(1)[0]));
+            violations.push((*pid, queue.observe_last_n(3)));
         }
     }
 
@@ -159,7 +161,7 @@ fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
     let lower_limit = CONFIGS.core.lower_limit;
     let upper_limit = CONFIGS.core.upper_limit;
     let file_name = &CONFIGS.policy_configs.policy_5.log_file;
-    let mut violations: Vec<(u32, u64)> = Vec::new();
+    let mut violations: Vec<(u32, Vec<&u64>)> = Vec::new();
 
     for (pid, queue) in processes.iter() {
         let observations = queue.observe_last_n(3);
@@ -169,7 +171,7 @@ fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
             && observations[1] < &upper_limit
             && observations[2] < &lower_limit
         {
-            violations.push((*pid, *queue.observe_last_n(1)[0]));
+            violations.push((*pid, queue.observe_last_n(3)));
         }
     }
 
