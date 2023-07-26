@@ -61,6 +61,7 @@ fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
         println!("P2 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
         if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.append_message(message.as_str());
             email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
             email_handler.send_email();
         }
@@ -100,6 +101,7 @@ fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
         println!("P3 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
         if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.append_message(message.as_str());
             email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
             email_handler.send_email();
         }
@@ -140,6 +142,7 @@ fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
         println!("P4 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
         if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.append_message(message.as_str());
             email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
             email_handler.send_email();
         }
@@ -180,6 +183,7 @@ fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
         println!("P5 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
         if CONFIGS.policy_configs.policy_2.enable_email {
+            email_handler.append_message(message.as_str());
             email_handler.add_attachment(&file_name, "application/toml; charset=utf-8");
             email_handler.send_email();
         }

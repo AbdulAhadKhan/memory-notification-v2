@@ -24,6 +24,10 @@ impl EmailHandler<'_> {
         }
     }
 
+    pub fn append_message(&mut self, message: &str) {
+        self.message.push_str(message);
+    }
+
     pub fn add_attachment(&mut self, filename: &str, content_type: &str) {
         let contents = fs::read(filename).expect("Something went wrong reading the file");
         let content_type = ContentType::parse(content_type).unwrap();
