@@ -1,5 +1,5 @@
 [package]
-name = "memory-notification-v2"
+name = "mnsv2"
 version = "0.1.0"
 edition = "2021"
 
