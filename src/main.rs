@@ -24,7 +24,7 @@ pub static CONFIGS: Lazy<Config> = Lazy::new(|| {
         Some(config) => Config::new(&config),
         None => {
             let home = home::home_dir().expect("Unable to get home directory");
-            let config_path = home.join(".config").join("msnv2").join("config.toml");
+            let config_path = home.join(".config").join("mnsv2").join("config.toml");
             Config::new(config_path.to_str().unwrap())
         }
     }
