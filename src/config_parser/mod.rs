@@ -176,9 +176,8 @@ impl Default for P5Configs {
 }
 
 impl Config {
-    pub fn new() -> Self {
-        let config = std::fs::read_to_string("config.toml").expect("Unable to read config file");
-        let config: Config = toml::from_str(&config).expect("Unable to parse config file");
+    fn build_cofig(config: &str) -> Config {
+        let config: Config = toml::from_str(config).expect("Unable to parse config file");
 
         if config.core.lower_limit > config.core.upper_limit {
             println!("Lower limit must be less than upper limit");
@@ -201,5 +200,17 @@ impl Config {
         }
 
         config
+    }
+
+    pub fn new(path: &str) -> Self {
+        let config = std::fs::read_to_string(path);
+        match config {
+            Ok(config) => Self::build_cofig(&config),
+            Err(_) => {
+                println!("Unable to read config file: {}", path);
+                println!("Using default config");
+                Self::default()
+            }
+        }
     }
 }
