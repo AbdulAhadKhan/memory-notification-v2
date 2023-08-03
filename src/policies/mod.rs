@@ -39,8 +39,7 @@ fn p2_delayed_email_on_upper(processes: &ProcessObserver) {
 
     let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
     let susbject = format!("Policy 2 Violation [{} UTC]", timestamp);
-    let message =
-        "Policy 2 violations have been detected. Please check the log file for more details.";
+    let message = "";
     let attachment = email::AttachmentInfo::new(
         &CONFIGS.policy_configs.policy_2.log_file,
         "application/toml; charset=utf-8",
@@ -76,8 +75,7 @@ fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
 
     let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
     let susbject = format!("Policy 3 Violation [{} UTC]", timestamp);
-    let message =
-        "Policy 3 violations have been detected. Please check the log file for more details.";
+    let message = "";
     let attachment = email::AttachmentInfo::new(
         &CONFIGS.policy_configs.policy_3.log_file,
         "application/toml; charset=utf-8",
@@ -117,8 +115,7 @@ fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
 
     let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
     let susbject = format!("Policy 4 Violation [{} UTC]", timestamp);
-    let message =
-        "Policy 4 violations have been detected. Please check the log file for more details.";
+    let message = "";
     let attachment = email::AttachmentInfo::new(
         &CONFIGS.policy_configs.policy_4.log_file,
         "application/toml; charset=utf-8",
@@ -159,8 +156,7 @@ fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
 
     let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
     let susbject = format!("Policy 5 Violation [{} UTC]", timestamp);
-    let message =
-        "Policy 5 violations have been detected. Please check the log file for more details.";
+    let message = "";
     let attachment = email::AttachmentInfo::new(
         &CONFIGS.policy_configs.policy_5.log_file,
         "application/toml; charset=utf-8",
