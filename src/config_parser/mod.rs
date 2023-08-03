@@ -205,10 +205,13 @@ impl Config {
     pub fn new(path: &str) -> Self {
         let config = std::fs::read_to_string(path);
         match config {
-            Ok(config) => Self::build_cofig(&config),
+            Ok(config) => {
+                println!("[*] Using config file: {}\n", path);
+                Self::build_cofig(&config)
+            }
             Err(_) => {
-                println!("Unable to read config file: {}", path);
-                println!("Using default config");
+                println!("[-] Unable to read config file: {}", path);
+                println!("[+] Using default config\n");
                 Self::default()
             }
         }
