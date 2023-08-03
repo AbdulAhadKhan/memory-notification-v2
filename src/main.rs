@@ -31,8 +31,6 @@ pub static CONFIGS: Lazy<Config> = Lazy::new(|| {
 });
 
 fn main() {
-    println!("{}", home::home_dir().unwrap().display());
-
     let mut process_observer =
         process_observer::ProcessObserver::new(CONFIGS.core.observation_window);
 

@@ -79,7 +79,7 @@ fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
     let message =
         "Policy 3 violations have been detected. Please check the log file for more details.";
     let attachment = email::AttachmentInfo::new(
-        &CONFIGS.policy_configs.policy_2.log_file,
+        &CONFIGS.policy_configs.policy_3.log_file,
         "application/toml; charset=utf-8",
     );
 
@@ -104,7 +104,7 @@ fn p3_lower_upper_lower_spike_log(processes: &ProcessObserver) {
         let message = format!("{}\n{}", message, violations_string);
         println!("P3 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
-        if CONFIGS.policy_configs.policy_2.enable_email {
+        if CONFIGS.policy_configs.policy_3.enable_email {
             email::send_email(susbject.as_str(), message.as_str(), Some(attachment));
         }
     }
@@ -120,7 +120,7 @@ fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
     let message =
         "Policy 4 violations have been detected. Please check the log file for more details.";
     let attachment = email::AttachmentInfo::new(
-        &CONFIGS.policy_configs.policy_2.log_file,
+        &CONFIGS.policy_configs.policy_4.log_file,
         "application/toml; charset=utf-8",
     );
 
@@ -146,7 +146,7 @@ fn p4_lower_mid_lower_spike_log(processes: &ProcessObserver) {
         let message = format!("{}\n{}", message, violations_string);
         println!("P4 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
-        if CONFIGS.policy_configs.policy_2.enable_email {
+        if CONFIGS.policy_configs.policy_4.enable_email {
             email::send_email(susbject.as_str(), message.as_str(), Some(attachment));
         }
     }
@@ -162,7 +162,7 @@ fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
     let message =
         "Policy 5 violations have been detected. Please check the log file for more details.";
     let attachment = email::AttachmentInfo::new(
-        &CONFIGS.policy_configs.policy_2.log_file,
+        &CONFIGS.policy_configs.policy_5.log_file,
         "application/toml; charset=utf-8",
     );
 
@@ -188,7 +188,7 @@ fn p5_lower_upper_mid_spike_log(processes: &ProcessObserver) {
         let message = format!("{}\n{}", message, violations_string);
         println!("P5 VIOLATIONS{}", message);
         log_to_file(&file_name, &message);
-        if CONFIGS.policy_configs.policy_2.enable_email {
+        if CONFIGS.policy_configs.policy_5.enable_email {
             email::send_email(susbject.as_str(), message.as_str(), Some(attachment));
         }
     }
