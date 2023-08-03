@@ -34,6 +34,9 @@ fn main() {
     let mut process_observer =
         process_observer::ProcessObserver::new(CONFIGS.core.observation_window);
 
+    #[cfg(debug_assertions)]
+    println!("{:#?}", CONFIGS);
+
     loop {
         let mut process_command = ProcessCommand::new();
         let map = process_command.convert_output_to_map();
